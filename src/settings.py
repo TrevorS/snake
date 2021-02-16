@@ -1,0 +1,14 @@
+import arcade
+
+UNIT = 15
+
+SCREEN_WIDTH = 32 * UNIT
+SCREEN_HEIGHT = 32 * UNIT
+
+SNAKE_WIDTH = 1 * UNIT
+SNAKE_HEIGHT = 1 * UNIT
+
+BACKGROUND_COLOR = arcade.csscolor.CORNFLOWER_BLUE
+SNAKE_COLOR = arcade.csscolor.WHITE
+
+SCREEN_TITLE = "Snake"
