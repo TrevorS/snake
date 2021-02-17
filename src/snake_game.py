@@ -7,6 +7,7 @@ from settings import (
     SCREEN_WIDTH,
     SNAKE_COLOR,
     SNAKE_HEIGHT,
+    SNAKE_LENGTH,
     SNAKE_WIDTH,
 )
 from snake import Snake
@@ -17,20 +18,15 @@ class SnakeGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         self.snake = None
-        self.snakes = None
-        self.walls = None
-        self.physics_engine = None
 
         arcade.set_background_color(BACKGROUND_COLOR)
 
     def setup(self):
-        self.snakes = arcade.SpriteList()
-        self.walls = arcade.SpriteList()
-
         self.snake = Snake(
             SNAKE_WIDTH,
             SNAKE_HEIGHT,
             SNAKE_COLOR,
+            SNAKE_LENGTH,
         )
 
         width, height = self.get_size()
@@ -38,16 +34,13 @@ class SnakeGame(arcade.Window):
         self.snake.center_x = width / 2
         self.snake.center_y = height / 2
 
-        self.snakes.append(self.snake)
-
-        self.physics_engine = arcade.PhysicsEngineSimple(
-            self.snake,
-            self.walls,
-        )
-
     def on_draw(self):
         arcade.start_render()
-        self.snakes.draw()
+
+        self.snake.draw()
+
+    def on_update(self, delta):
+        self.snake.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
@@ -58,6 +51,3 @@ class SnakeGame(arcade.Window):
             self.snake.go_down()
         elif key == arcade.key.D:
             self.snake.go_right()
-
-    def on_update(self, delta_time):
-        self.physics_engine.update()
