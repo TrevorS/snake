@@ -1,5 +1,6 @@
 import arcade
 
+from food import Food
 from settings import (
     BACKGROUND_COLOR,
     FOOD_COLOR,
@@ -13,7 +14,7 @@ from settings import (
     SNAKE_LENGTH,
     SNAKE_WIDTH,
 )
-from snake import Food, Snake
+from snake import Snake
 
 
 class SnakeGame(arcade.Window):
