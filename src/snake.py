@@ -1,6 +1,16 @@
 import arcade
 
-from settings import UNIT
+from settings import SNAKE_LENGTH, UNIT
+
+
+class Part:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    @classmethod
+    def generate_parts(cls, x=0, y=0, length=SNAKE_LENGTH):
+        return [cls(x, y) for _ in range(length)]
 
 
 class Snake:
@@ -10,46 +20,42 @@ class Snake:
         self.color = color
         self.length = length
 
-        self.center_x = 0
-        self.center_y = 0
         self.change_x = 0
         self.change_y = 0
-        self.angle = 0
+
+        self.parts = Part.generate_parts()
+
+    def teleport(self, x, y):
+        self.parts = Part.generate_parts(x, y, self.length)
 
     def draw(self):
-        arcade.draw_rectangle_filled(
-            self.center_x,
-            self.center_y,
-            self.width,
-            self.height,
-            self.color,
-            self.angle,
-        )
+        for part in self.parts:
+            arcade.draw_rectangle_filled(
+                part.x,
+                part.y,
+                self.width,
+                self.height,
+                self.color,
+            )
 
     def update(self):
-        self.center_x += self.change_x
-        self.center_y += self.change_y
+        # TODO: adjust update to move parts
+        for part in self.parts:
+            part.x += self.change_x
+            part.y += self.change_y
 
     def go_up(self):
         self.change_y = 1 * UNIT
         self.change_x = 0
 
-        self.angle = 0
-
     def go_down(self):
         self.change_y = -1 * UNIT
         self.change_x = 0
-
-        self.angle = 180
 
     def go_left(self):
         self.change_y = 0
         self.change_x = -1 * UNIT
 
-        self.angle = -90
-
     def go_right(self):
         self.change_y = 0
         self.change_x = 1 * UNIT
-
-        self.angle = 90

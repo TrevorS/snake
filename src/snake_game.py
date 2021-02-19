@@ -31,8 +31,7 @@ class SnakeGame(arcade.Window):
 
         width, height = self.get_size()
 
-        self.snake.center_x = width / 2
-        self.snake.center_y = height / 2
+        self.snake.teleport(width / 2, height / 2)
 
     def on_draw(self):
         arcade.start_render()
