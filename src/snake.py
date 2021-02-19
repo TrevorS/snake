@@ -39,10 +39,14 @@ class Snake:
             )
 
     def update(self):
-        # TODO: adjust update to move parts
-        for part in self.parts:
-            part.x += self.change_x
-            part.y += self.change_y
+        for i in range(self.length - 1, 0, -1):
+            self.parts[i].x = self.parts[i - 1].x
+            self.parts[i].y = self.parts[i - 1].y
+
+        head = self.parts[0]
+
+        head.x += self.change_x
+        head.y += self.change_y
 
     def go_up(self):
         self.change_y = 1 * UNIT
