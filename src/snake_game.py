@@ -22,37 +22,42 @@ class SnakeGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         self.snake = None
-        self.food = None
+
+        self.foods = None
+        self.snakes = None
 
         arcade.set_background_color(BACKGROUND_COLOR)
 
     def setup(self):
         width, height = self.get_size()
 
-        self.food = Food(
+        self.foods = arcade.SpriteList()
+        self.snakes = arcade.SpriteList()
+
+        food = Food(
             FOOD_HEIGHT,
             FOOD_WIDTH,
             FOOD_COLOR,
-        )
-        self.food.random_teleport(width, height)
+        ).random_teleport(width, height)
+        self.foods.append(food)
 
         self.snake = Snake(
             SNAKE_WIDTH,
             SNAKE_HEIGHT,
             SNAKE_COLOR,
             SNAKE_LENGTH,
-        )
-        self.snake.teleport(width / 2, height / 2)
+        ).teleport(width / 2, height / 2)
+        self.snakes.append(self.snake)
 
     def on_draw(self):
         arcade.start_render()
 
+        self.foods.draw()
         self.snake.draw()
-        self.food.draw()
 
     def on_update(self, delta):
-        self.snake.update()
-        self.food.update()
+        self.foods.update()
+        self.snakes.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:

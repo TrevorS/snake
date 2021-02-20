@@ -31,6 +31,8 @@ class Snake(arcade.SpriteSolidColor):
             part.change_x = 0
             part.change_y = 0
 
+        return self
+
     def draw(self):
         self.parts.draw()
 

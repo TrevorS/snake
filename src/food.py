@@ -12,3 +12,5 @@ class Food(arcade.SpriteSolidColor):
 
         self.center_x = x
         self.center_y = y
+
+        return self
