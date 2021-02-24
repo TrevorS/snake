@@ -11,12 +11,14 @@ class Snake(arcade.SpriteSolidColor):
 
         self.change_x = 0
         self.change_y = 0
-        self.length = length
 
         self.parts = arcade.SpriteList()
 
         for _ in range(length):
             self.parts.append(arcade.SpriteSolidColor(width, height, color))
+
+    def grow(self):
+        self.parts.append(arcade.SpriteSolidColor(self.width, self.height, self.color))
 
     def teleport(self, x, y):
         self.center_x = x
@@ -37,7 +39,7 @@ class Snake(arcade.SpriteSolidColor):
         self.parts.draw()
 
     def update(self):
-        for i in range(self.length - 1, 0, -1):
+        for i in range(len(self.parts) - 1, 0, -1):
             self.parts[i].center_x = self.parts[i - 1].center_x
             self.parts[i].center_y = self.parts[i - 1].center_y
 
@@ -45,6 +47,9 @@ class Snake(arcade.SpriteSolidColor):
 
         head.center_x += self.change_x
         head.center_y += self.change_y
+
+        self.center_x = head.center_x
+        self.center_y = head.center_y
 
     def go_up(self):
         self.change_y = 1 * UNIT

@@ -22,7 +22,6 @@ class SnakeGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         self.snake = None
-
         self.foods = None
         self.snakes = None
 
@@ -58,6 +57,23 @@ class SnakeGame(arcade.Window):
     def on_update(self, delta):
         self.foods.update()
         self.snakes.update()
+
+        food_hit_list = arcade.check_for_collision_with_list(self.snake, self.foods)
+
+        for food in food_hit_list:
+            food.remove_from_sprite_lists()
+
+            width, height = self.get_size()
+
+            new_food = Food(
+                FOOD_HEIGHT,
+                FOOD_WIDTH,
+                FOOD_COLOR,
+            ).random_teleport(width, height)
+
+            self.foods.append(new_food)
+
+            self.snake.grow()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
