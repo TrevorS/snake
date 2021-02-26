@@ -2,7 +2,7 @@ import random
 
 import arcade
 
-from settings import SNAKE_LENGTH, UNIT
+from settings import SNAKE_LENGTH, SNAKE_TRAVEL
 
 
 class Snake(arcade.SpriteSolidColor):
@@ -19,6 +19,9 @@ class Snake(arcade.SpriteSolidColor):
 
     def grow(self):
         self.parts.append(arcade.SpriteSolidColor(self.width, self.height, self.color))
+
+    def score(self):
+        return len(self.parts) - SNAKE_LENGTH
 
     def teleport(self, x, y):
         self.center_x = x
@@ -52,17 +55,17 @@ class Snake(arcade.SpriteSolidColor):
         self.center_y = head.center_y
 
     def go_up(self):
-        self.change_y = 1 * UNIT
+        self.change_y = SNAKE_TRAVEL
         self.change_x = 0
 
     def go_down(self):
-        self.change_y = -1 * UNIT
+        self.change_y = -SNAKE_TRAVEL
         self.change_x = 0
 
     def go_left(self):
         self.change_y = 0
-        self.change_x = -1 * UNIT
+        self.change_x = -SNAKE_TRAVEL
 
     def go_right(self):
         self.change_y = 0
-        self.change_x = 1 * UNIT
+        self.change_x = SNAKE_TRAVEL
