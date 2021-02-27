@@ -2,6 +2,7 @@ import random
 
 import arcade
 
+from direction import Direction
 from settings import SNAKE_LENGTH, SNAKE_TRAVEL
 
 
@@ -11,6 +12,7 @@ class Snake(arcade.SpriteSolidColor):
 
         self.change_x = 0
         self.change_y = 0
+        self.direction = Direction.NONE
 
         self.parts = arcade.SpriteList()
 
@@ -23,6 +25,17 @@ class Snake(arcade.SpriteSolidColor):
     def score(self):
         return len(self.parts) - SNAKE_LENGTH
 
+    def check_for_self_collision(self):
+        head = self.parts[0]
+
+        tail = arcade.SpriteList()
+        tail.extend(self.parts[1:])
+
+        return arcade.check_for_collision_with_list(
+            head,
+            tail,
+        )
+
     def teleport(self, x, y):
         self.center_x = x
         self.center_y = y
@@ -30,9 +43,9 @@ class Snake(arcade.SpriteSolidColor):
         self.change_x = 0
         self.change_y = 0
 
-        for part in self.parts:
+        for i, part in enumerate(self.parts):
             part.center_x = x
-            part.center_y = y
+            part.center_y = y - (i * SNAKE_TRAVEL)
             part.change_x = 0
             part.change_y = 0
 
@@ -42,6 +55,9 @@ class Snake(arcade.SpriteSolidColor):
         self.parts.draw()
 
     def update(self):
+        if self.direction == Direction.NONE:
+            return
+
         for i in range(len(self.parts) - 1, 0, -1):
             self.parts[i].center_x = self.parts[i - 1].center_x
             self.parts[i].center_y = self.parts[i - 1].center_y
@@ -55,17 +71,37 @@ class Snake(arcade.SpriteSolidColor):
         self.center_y = head.center_y
 
     def go_up(self):
+        if Direction.up_down(self.direction):
+            return
+
+        self.direction = Direction.UP
+
         self.change_y = SNAKE_TRAVEL
         self.change_x = 0
 
     def go_down(self):
+        if Direction.up_down(self.direction):
+            return
+
+        self.direction = Direction.DOWN
+
         self.change_y = -SNAKE_TRAVEL
         self.change_x = 0
 
     def go_left(self):
+        if Direction.left_right(self.direction):
+            return
+
+        self.direction = Direction.LEFT
+
         self.change_y = 0
         self.change_x = -SNAKE_TRAVEL
 
     def go_right(self):
+        if Direction.left_right(self.direction):
+            return
+
+        self.direction = Direction.RIGHT
+
         self.change_y = 0
         self.change_x = SNAKE_TRAVEL

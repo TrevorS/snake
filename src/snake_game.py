@@ -73,6 +73,12 @@ class SnakeGame(arcade.Window):
         self.snakes.update()
         self.walls.update()
 
+        self_hit_list = self.snake.check_for_self_collision()
+
+        if len(self_hit_list) > 0:
+            print("You hit yourself")
+            # self.close()
+
         wall_hit_list = arcade.check_for_collision_with_list(
             self.snake,
             self.walls,
