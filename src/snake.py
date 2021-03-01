@@ -3,7 +3,7 @@ import random
 import arcade
 
 from direction import Direction
-from settings import SNAKE_LENGTH, SNAKE_TRAVEL
+from settings import SNAKE_HEIGHT, SNAKE_LENGTH
 
 
 class Snake(arcade.SpriteSolidColor):
@@ -45,7 +45,7 @@ class Snake(arcade.SpriteSolidColor):
 
         for i, part in enumerate(self.parts):
             part.center_x = x
-            part.center_y = y - (i * SNAKE_TRAVEL)
+            part.center_y = y - (i * SNAKE_HEIGHT)
             part.change_x = 0
             part.change_y = 0
 
@@ -76,7 +76,7 @@ class Snake(arcade.SpriteSolidColor):
 
         self.direction = Direction.UP
 
-        self.change_y = SNAKE_TRAVEL
+        self.change_y = SNAKE_HEIGHT
         self.change_x = 0
 
     def go_down(self):
@@ -85,7 +85,7 @@ class Snake(arcade.SpriteSolidColor):
 
         self.direction = Direction.DOWN
 
-        self.change_y = -SNAKE_TRAVEL
+        self.change_y = -SNAKE_HEIGHT
         self.change_x = 0
 
     def go_left(self):
@@ -95,7 +95,7 @@ class Snake(arcade.SpriteSolidColor):
         self.direction = Direction.LEFT
 
         self.change_y = 0
-        self.change_x = -SNAKE_TRAVEL
+        self.change_x = -SNAKE_HEIGHT
 
     def go_right(self):
         if Direction.left_right(self.direction):
@@ -104,4 +104,4 @@ class Snake(arcade.SpriteSolidColor):
         self.direction = Direction.RIGHT
 
         self.change_y = 0
-        self.change_x = SNAKE_TRAVEL
+        self.change_x = SNAKE_HEIGHT
