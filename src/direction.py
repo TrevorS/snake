@@ -9,9 +9,20 @@ class Direction(Enum):
     RIGHT = 4
 
     @classmethod
-    def up_down(cls, direction):
-        return direction == cls.UP or direction == cls.DOWN
+    def unchanged(cls, current, new):
+        ud, lr = (cls.UP, cls.DOWN), (cls.LEFT, cls.RIGHT)
 
-    @classmethod
-    def left_right(cls, direction):
-        return direction == cls.LEFT or direction == cls.RIGHT
+        return current in ud and new in ud or current in lr and new in lr
+
+
+DELTA = {
+    Direction.NONE: (0, 0),
+    Direction.UP: (0, 1),
+    Direction.DOWN: (0, -1),
+    Direction.LEFT: (-1, 0),
+    Direction.RIGHT: (1, 0),
+}
+
+
+def get_delta(direction):
+    return DELTA[direction]
